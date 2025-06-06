@@ -1,13 +1,15 @@
 import { Tabs } from "expo-router";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
 import { UserLevelProvider } from "../context/UserLevelContext";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import LogoutButton from "../components/LogoutButton"; 
+import { useState } from "react";
 
 export default function TabsLayout() {
-  const { theme } = useTheme(); 
+  const { theme } = useTheme();
+  const [reload, setReload] = useState(false);
 
   return (
     <UserLevelProvider>
@@ -16,16 +18,11 @@ export default function TabsLayout() {
         <Tabs
           screenOptions={{
             tabBarStyle: {
-              // Fondo amarillo pastel (fijo)
               backgroundColor: "#F0DEC3", 
-              // Borde superior amarillo (fijo)
               borderTopColor: "#DBA975", 
-              // Grosor del borde
               borderTopWidth: 2, 
             },
-            // Color morado para íconos y texto activos
             tabBarActiveTintColor: "#BB86F2", 
-            // Color gris para íconos y texto inactivos
             tabBarInactiveTintColor: "#A0A0A0", 
           }}
         >
@@ -62,17 +59,11 @@ export default function TabsLayout() {
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="clipboard-list" size={size} color={color} />
               ),
-            }}
-          />
-
-          {/* Pestaña de Juegos */}
-          <Tabs.Screen
-            name="games"
-            options={{
-              headerShown: false,
-              tabBarLabel: "Juegos",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="game-controller" size={size} color={color} />
+              tabBarButton: (props) => (
+                <TouchableOpacity
+                  {...props}
+                  onPress={() => setReload(!reload)} // Cambia el estado para recargar la pantalla de tareas
+                />
               ),
             }}
           />
@@ -85,6 +76,12 @@ export default function TabsLayout() {
               tabBarLabel: "Perfil",
               tabBarIcon: ({ color, size }) => (
                 <Ionicons name="person" size={size} color={color} />
+              ),
+              tabBarButton: (props) => (
+                <TouchableOpacity
+                  {...props}
+                  onPress={() => setReload(!reload)} // Cambia el estado para recargar la pantalla de perfil
+                />
               ),
             }}
           />
@@ -103,9 +100,10 @@ const styles = StyleSheet.create({
     position: 'relative', 
   },
   lightContainer: {
-    backgroundColor: 'white', // Fondo blanco para el modo claro
+    backgroundColor: 'white',
   },
   darkContainer: {
-    backgroundColor: 'black', // Fondo negro para el modo oscuro
+    backgroundColor: 'black',
   },
 });
+

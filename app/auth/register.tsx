@@ -6,19 +6,19 @@ import { useRouter } from "expo-router";
 import axios from "axios"; 
 import styles from "../styles/RegisterStyles";
 
-const BASE_URL = "https://tu-backend.com/api"; 
 
 const Register = () => {
   const { theme } = useTheme();
   const router = useRouter();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showCode, setShowCode] = useState(false);
   const [code, setCode] = useState("");
   const [isLogin, setIsLogin] = useState(false);
 
-  const handleRegister = async () => {
+  const register = async () => {
     if (!username || !password || !confirmPassword) {
       Alert.alert("Error", "Todos los campos son obligatorios.");
       return;
@@ -30,8 +30,9 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/register`, {
+      const response = await axios.post('http://127.0.0.1:5000/api/auth/register', {
         username,
+        email,
         password,
       });
 
@@ -69,6 +70,10 @@ const Register = () => {
                 <TextInput placeholder="Nombre de usuario" placeholderTextColor="#666" value={username} onChangeText={setUsername} style={styles.input} />
               </View>
               <View style={styles.inputContainer}>
+                <MaterialCommunityIcons name="account-circle" size={24} color="#BB86FC" style={styles.icon} />
+                <TextInput placeholder="Correo" placeholderTextColor="#666" value={email} onChangeText={setEmail} style={styles.input} />
+              </View>
+              <View style={styles.inputContainer}>
                 <MaterialCommunityIcons name="lock" size={24} color="#BB86FC" style={styles.icon} />
                 <TextInput placeholder="Contraseña" placeholderTextColor="#666" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
               </View>
@@ -76,8 +81,8 @@ const Register = () => {
                 <MaterialCommunityIcons name="lock" size={24} color="#BB86FC" style={styles.icon} />
                 <TextInput placeholder="Confirmar contraseña" placeholderTextColor="#666" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry style={styles.input} />
               </View>
-              <TouchableOpacity onPress={handleRegister} style={styles.button}>
-                <Text style={styles.buttonText}>¡Obtener código mágico!</Text>
+              <TouchableOpacity onPress={register} style={styles.button}>
+                <Text style={styles.buttonText}>Registro</Text>
                 <MaterialCommunityIcons name="star-four-points" size={24} color="white" style={styles.buttonIcon} />
               </TouchableOpacity>
             </View>

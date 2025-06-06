@@ -1,42 +1,29 @@
-import React from "react";
-import { View, Text, ScrollView} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
-import styles from '../styles/LogrosStyles'; 
-
-const achievements = [
-  {
-    title: "Matemático Estrella",
-    description: "Completa 10 ejercicios perfectamente",
-    unlocked: true,
-    progress: 100,
-  },
-  {
-    title: "Rey de las Sumas",
-    description: "Resuelve 20 sumas correctamente",
-    unlocked: true,
-    progress: 100,
-  },
-  {
-    title: "Experto en Restas",
-    description: "Completa el módulo de restas",
-    unlocked: false,
-    progress: 75,
-  },
-  {
-    title: "Maestro del Tiempo",
-    description: "Completa 5 ejercicios en menos de 1 minuto",
-    unlocked: false,
-    progress: 40,
-  },
-];
+import styles from '../styles/LogrosStyles';
 
 const Achievements = () => {
-  const { theme } = useTheme(); 
+  const { theme } = useTheme();
+  const [logros, setLogros] = useState([]);
+
+  useEffect(() => {
+    const fetchLogros = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/logro/allogros");
+        const data = await response.json();
+        setLogros(data);
+      } catch (error) {
+        console.error("Error al obtener logros:", error);
+      }
+    };
+
+    fetchLogros();
+  }, []);
 
   return (
     <ScrollView style={[styles.container, theme === 'light' ? styles.lightContainer : styles.darkContainer]}>
-      {/* Header */}
       <View style={styles.header}>
         <View>
           <Text style={[styles.title, theme === 'light' ? styles.lightText : styles.darkText]}>
@@ -51,9 +38,8 @@ const Achievements = () => {
         </View>
       </View>
 
-      {/* Lista de Logros */}
       <View style={styles.achievementsContainer}>
-        {achievements.map((achievement, index) => (
+        {logros.map((achievement, index) => (
           <View
             key={index}
             style={[styles.achievementCard, theme === 'light' ? styles.lightCard : styles.darkCard]}
@@ -61,34 +47,29 @@ const Achievements = () => {
             <View style={styles.cardHeader}>
               <View style={styles.textContainer}>
                 <Text style={[styles.achievementTitle, theme === 'light' ? styles.lightText : styles.darkText]}>
-                  {achievement.title}
+                  {achievement.logro}
                 </Text>
                 <Text style={[styles.achievementDescription, theme === 'light' ? styles.lightText : styles.darkText]}>
-                  {achievement.description}
+                  {achievement.descripcion}
                 </Text>
               </View>
               <View style={styles.iconContainer}>
-                {achievement.unlocked ? (
-                  <Ionicons name="checkmark-circle" size={24} color={theme === 'light' ? "#4CAF50" : "#81C784"} />
-                ) : (
-                  <MaterialCommunityIcons name="lock" size={24} color={theme === 'light' ? "#9E9E9E" : "#757575"} />
-                )}
+                <Ionicons name="checkmark-circle" size={24} color={theme === 'light' ? "#4CAF50" : "#81C784"} />
               </View>
             </View>
 
-            {/* Barra de Progreso */}
             <View style={styles.progressContainer}>
               <View style={[styles.progressBar, theme === 'light' ? styles.lightProgressBar : styles.darkProgressBar]}>
                 <View
                   style={[
                     styles.progressFill,
-                    { width: `${achievement.progress}%` },
+                    { width: `100%` }, // Por ahora 100% desbloqueado
                     theme === 'light' ? styles.lightProgressFill : styles.darkProgressFill,
                   ]}
                 />
               </View>
               <Text style={[styles.progressText, theme === 'light' ? styles.lightText : styles.darkText]}>
-                {achievement.progress}% completado
+                100% completado
               </Text>
             </View>
           </View>
