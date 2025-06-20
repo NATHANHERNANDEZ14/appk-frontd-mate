@@ -2,6 +2,8 @@ import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 // Definir la interfaz del usuario
 interface User {
   id: string;
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-      const response = await axios.get('http://127.0.0.1:5000/api/auth/me');
+      const response = await axios.get(`${apiUrl}/auth/me`);
 
       console.log('Usuario autenticado:', response.data);
       setUser(response.data);

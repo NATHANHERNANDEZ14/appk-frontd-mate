@@ -6,6 +6,8 @@ import { useRouter } from "expo-router";
 import axios from "axios"; 
 import styles from "../styles/RegisterStyles";
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 
 const Register = () => {
   const { theme } = useTheme();
@@ -30,7 +32,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/auth/register', {
+      const response = await axios.post(`${apiUrl}/auth/register`, {
         username,
         email,
         password,

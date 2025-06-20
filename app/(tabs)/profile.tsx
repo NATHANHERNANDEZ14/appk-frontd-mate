@@ -5,6 +5,8 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Progress from 'react-native-progress'; // Importamos la librería
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 const Perfil = () => {
   const auth = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
@@ -41,14 +43,14 @@ const Perfil = () => {
 
         // Obtener el progreso de las tareas completadas por el usuario
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/progreso/progreso/${auth.user.id}`,
+          `${apiUrl}/progreso/progreso/${auth.user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProgress(response.data); // Establecemos el progreso del usuario
 
         // Llamamos al endpoint para obtener el resumen del progreso
         const resumenResponse = await axios.get(
-          `http://127.0.0.1:5000/api/progreso/${auth.user.id}/resumen`,
+          `${apiUrl}/progreso/${auth.user.id}/resumen`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setTotalPuntaje(resumenResponse.data.totalPuntaje); // Establecemos el puntaje total

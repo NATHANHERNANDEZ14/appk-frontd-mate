@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 export default function GameScreen() {
   const { tarea } = useLocalSearchParams();
   const [tareaObj, setTareaObj] = useState(null);
@@ -50,7 +52,7 @@ export default function GameScreen() {
     try {
       const token = await AsyncStorage.getItem('token');
       const response = await axios.post(
-        `http://127.0.0.1:5000/api/tarea/${tareaObj._id}/responder`,
+        `${apiUrl}/tarea/${tareaObj._id}/responder`,
         { respuesta: respuestaUsuario },
         {
           headers: { Authorization: `Bearer ${token}` },

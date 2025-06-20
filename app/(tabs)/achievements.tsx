@@ -4,6 +4,8 @@ import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
 import styles from '../styles/LogrosStyles';
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 const Achievements = () => {
   const { theme } = useTheme();
   const [logros, setLogros] = useState([]);
@@ -11,7 +13,7 @@ const Achievements = () => {
   useEffect(() => {
     const fetchLogros = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/logro/allogros");
+        const response = await fetch(`${apiUrl}/logro/allogros`);
         const data = await response.json();
         setLogros(data);
       } catch (error) {

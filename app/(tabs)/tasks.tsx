@@ -8,6 +8,8 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/AuthContext'; // Asegúrate de que esta ruta sea correcta
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 const TareasScreen = () => {
   const auth = useContext(AuthContext);
   const [tareasPorBloque, setTareasPorBloque] = useState({});
@@ -20,7 +22,7 @@ const TareasScreen = () => {
   useEffect(() => {
     bloques.forEach((bloque) => {
       axios
-        .get(`http://127.0.0.1:5000/api/tarea/tareas/bloque/${bloque}`)
+        .get(`${apiUrl}/tarea/tareas/bloque/${bloque}`)
         .then((response) => {
           setTareasPorBloque((prev) => ({ ...prev, [bloque]: response.data }));
         });
@@ -34,7 +36,7 @@ const TareasScreen = () => {
         if (!auth?.user || !token) return;
 
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/progreso/progreso/${auth.user.id}`,
+          `${apiUrl}/progreso/progreso/${auth.user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProgreso(response.data);

@@ -5,6 +5,8 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "../styles/styles";
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -19,7 +21,7 @@ const Login = () => {
     try {
       console.log("Intentando iniciar sesión con:", { email, password });
       
-      const response = await axios.post('http://127.0.0.1:5000/api/auth/login', {
+      const response = await axios.post(`${apiUrl}/auth/login`, {
         email,
         password,
       });
