@@ -125,23 +125,6 @@ const Menu = () => {
           </TouchableOpacity>
         ))}
       </View>
-
-      {/* Próxima Lección */}
-      <View style={[styles.nextLessonContainer, theme === 'light' ? styles.lightCard : styles.darkCard]}>
-        <View style={styles.iconContainer}>
-          <MaterialCommunityIcons name="calendar-clock" size={24} color={theme === 'light' ? "#3182ce" : "#BB86F2"} />
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={[styles.nextLessonTitle, theme === 'light' ? styles.lightText : styles.darkText]}>
-            Próxima Lección
-          </Text>
-          <Text style={[styles.nextLessonText, theme === 'light' ? styles.lightText : styles.darkText]}>
-            {block === "1" && "Aprendiendo a Contar - 2:00 PM"}
-            {block === "2" && "Sumas Divertidas - 2:00 PM"}
-            {block === "3" && "Sumas y Restas Avanzadas - 2:00 PM"}
-          </Text>
-        </View>
-      </View>
     </ScrollView>
   );
 };

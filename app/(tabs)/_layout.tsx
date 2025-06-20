@@ -14,7 +14,7 @@ export default function TabsLayout() {
   return (
     <UserLevelProvider>
       <View style={[styles.container, theme === 'light' ? styles.lightContainer : styles.darkContainer]}>
-        {/* Configuración de las pestañas */}
+        {/* Esta es la Configuración de las pestañas */}
         <Tabs
           screenOptions={{
             tabBarStyle: {
@@ -26,7 +26,7 @@ export default function TabsLayout() {
             tabBarInactiveTintColor: "#A0A0A0", 
           }}
         >
-          {/* Pestaña de Inicio */}
+          {/* La Pestaña de Inicio */}
           <Tabs.Screen
             name="menu"
             options={{
@@ -38,7 +38,7 @@ export default function TabsLayout() {
             }}
           />
 
-          {/* Pestaña de Logros */}
+          {/* La Pestaña de Logros */}
           <Tabs.Screen
             name="achievements"
             options={{
@@ -50,41 +50,51 @@ export default function TabsLayout() {
             }}
           />
 
-          {/* Pestaña de Tareas */}
-          <Tabs.Screen
-            name="tasks"
-            options={{
-              headerShown: false,
-              tabBarLabel: "Tareas",
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="clipboard-list" size={size} color={color} />
-              ),
-              tabBarButton: (props) => (
-                <TouchableOpacity
-                  {...props}
-                  onPress={() => setReload(!reload)} // Cambia el estado para recargar la pantalla de tareas
-                />
-              ),
-            }}
-          />
+          {/* La Pestaña de Tareas */}
+         <Tabs.Screen
+  name="tasks"
+  options={{
+    headerShown: false,
+    tabBarLabel: "Tareas",
+    tabBarIcon: ({ color, size }) => (
+      <MaterialCommunityIcons name="clipboard-list" size={size} color={color} />
+    ),
+    tabBarButton: (props) => (
+      <TouchableOpacity
+        {...props}
+        onPress={() => {
+          //Aqui nos permite la navegación ajaj
+          props.onPress?.();  
+          // Aqui nos va recarga el contenido jaja     
+          setReload(prev => !prev); 
+        }}
+      />
+    ),
+  }}
+/>
 
           {/* Pestaña de Perfil */}
           <Tabs.Screen
-            name="profile"
-            options={{
-              headerShown: false,
-              tabBarLabel: "Perfil",
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="person" size={size} color={color} />
-              ),
-              tabBarButton: (props) => (
-                <TouchableOpacity
-                  {...props}
-                  onPress={() => setReload(!reload)} // Cambia el estado para recargar la pantalla de perfil
-                />
-              ),
-            }}
-          />
+  name="profile"
+  options={{
+    headerShown: false,
+    tabBarLabel: "Perfil",
+    tabBarIcon: ({ color, size }) => (
+      <Ionicons name="person" size={size} color={color} />
+    ),
+    tabBarButton: (props) => (
+      <TouchableOpacity
+        {...props}
+        onPress={() => {
+          // Aqi nos permite la navegación jaja
+          props.onPress?.();
+          //Aqui nos recarga el contenido ja      
+          setReload(prev => !prev); 
+        }}
+      />
+    ),
+  }}
+/>
         </Tabs>
 
         <ThemeSwitcher />

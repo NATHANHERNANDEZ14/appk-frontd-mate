@@ -6,6 +6,7 @@ export default StyleSheet.create({
     padding: 16,
     backgroundColor: '#FFFFF0', // Fondo del menú en #FFFFF0
   },
+
   lightContainer: {
     backgroundColor: '#FFFFF0', // Fondo del menú en #FFFFF0 (modo claro)
   },
